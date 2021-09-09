@@ -2,6 +2,7 @@ import React from "react";
 import NewTicketForm from "./NewTicketForm";
 import TicketList from "./TicketList";
 import TicketDetail from "./TicketDetail";
+import EditTicketForm from './EditTicketForm';
 
 class TicketControl extends React.Component {
 
@@ -10,7 +11,8 @@ class TicketControl extends React.Component {
     this.state = {
       formVisibleOnPage: false,
       masterTicketList: [],
-      selectedTicket: null
+      selectedTicket: null,
+      editing: false
     };
   }
   //event handler fx prefixed with handle
@@ -26,7 +28,8 @@ class TicketControl extends React.Component {
     if (this.state.selectedTicket != null) {
       this.setState({
         formVisibleOnPage: false,
-        selectedTicket: null
+        selectedTicket: null,
+        editing: false
       });
     } else {
       this.setState(prevState =>({
@@ -34,9 +37,9 @@ class TicketControl extends React.Component {
       }));
     }
   }
-  //if this.state.selectedticket isn't null the we must be on a ticket detail page, in that case we know that formVisibleOnPage should be false and selectedTicket should be null
+  //if this.state.selectedTicket isn't null the we must be on a ticket detail page, in that case we know that formVisibleOnPage should be false and selectedTicket should be null
   //setState() takes an object, and can take two arguments 
-  //pass in current state, change to the oposite state with !
+  //pass in current state, change to the opposite state with !
   //use an arrow fx for automatic this. binding
 
   handleChangingSelectedTicket = (id) => {
@@ -56,15 +59,42 @@ class TicketControl extends React.Component {
   //then add the new filtered list to the key value pair
   //set slected ticket back to null so that TickList will be showing
 
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
+  }
+
+  handleEditingTicketInList = (ticketToEdit) => {
+    const editedMasterTicketList = this.state.masterTicketList  
+      .filter(ticket => ticket.id !== this.state.selectedTicket.id)
+      .concat(ticketToEdit);
+    this.setState({
+      masterTicketList: editedMasterTicketList,
+      editing: false,
+      selectedTicket: null
+    });
+  }
+  //filter previous version of ticket, then add the edited version of the ticket to the list with concat(), this way we do not mutate state
+  //then set masterTicketList to = updated ticket
+  // then update bool to false
 
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.selectedTicket != null) {
-      currentlyVisibleState = <TicketDetail ticket = {this.state.selectedTicket} onClickingDelete = {this.handleDeletingTicket} /> //onClickingDelte passes our handleDeletingTicket as a prop
+    if (this.state.editing) {
+        currentlyVisibleState = <EditTicketForm 
+          ticket = {this.state.selectedTicket} 
+          onEditTicket = {this.handleEditingTicketInList} />
+        buttonText = "Return to Ticket List";
+    } else if (this.state.selectedTicket != null) {
+      currentlyVisibleState = <TicketDetail 
+        ticket = {this.state.selectedTicket} 
+        onClickingDelete = {this.handleDeletingTicket} 
+        onClickingEdit ={this.handleEditClick} /> //onClickingDelete passes our handleDeletingTicket as a prop
       buttonText = "Return to Ticket List";
     } else if (this.state.formVisibleOnPage) {
-      currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
+      currentlyVisibleState = <NewTicketForm 
+        onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List";
     } else {
       currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket} />

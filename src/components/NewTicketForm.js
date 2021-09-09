@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 } from 'uuid';
 import PropTypes from "prop-types";
+import ReusableForm from "./ReusableForm";
 
 //props.onNewTicketCreation() does not have access to .this in this commponent but does have access to props
 //onNewTicketCreation() is the callback from the parent commponent its invoked in TicketControler.js wiht the name (newTicket) that will get passed into the handleAddingNewTicketToList fx
@@ -18,20 +19,9 @@ function NewTicketForm(props) {
   return (
     //onSubmit  event handler triggers the fx
     <React.Fragment>
-      <form onSubmit={handleNewTicketFormSubmission}>
-        <input
-          type='text'
-          name='names'
-          placeholder='Pair Names' />
-        <input
-          type='text'
-          name='location'
-          placeholder='Location' />
-        <textarea
-          name='issue'
-          placeholder='Describe your issue.' />
-        <button type='submit'>Help!</button>
-      </form>
+      <ReusableForm
+        formSubmissionHandler={handleNewTicketFormSubmission}
+        buttonText="Help!" />
     </React.Fragment>
   );
 }
