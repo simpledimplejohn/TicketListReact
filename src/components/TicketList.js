@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 function TicketList(props){
   return (
     <React.Fragment>
+      <p><strong>****VISIBLE -List of current tickets-, TicketList.js***</strong></p>
       <hr/>
+      <p>sends props down to ticket</p>
       {props.ticketList.map((ticket) =>
         <Ticket 
           whenTicketClicked = { props.onTicketSelection }

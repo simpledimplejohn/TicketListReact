@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 function Ticket(props){
   return (
     <React.Fragment>
+
       <div onClick = { () => props.whenTicketClicked(props.id)}>
+        <p><strong>****Ticket.js***</strong></p>
+        <p><strong>*runs props.whenTicketClicked and sends props.id*</strong></p>
         <h3>{props.location} - {props.names}</h3>
         <p><em>{props.issue}</em></p>
         <hr/>

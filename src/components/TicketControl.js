@@ -103,8 +103,9 @@ class TicketControl extends React.Component {
     }
     return (
       <React.Fragment>
+        <p><strong>****INVISIBLE, TicketControl.js, currentlyVisibleState, button onClick handleClick buttonText***</strong></p>
         {currentlyVisibleState}
-        {<button onClick={this.handleClick}>{buttonText}</button>}
+        {<button onClick={this.handleClick}>{buttonText} **button at TicketControl.js**</button>}
       </React.Fragment>
       //button lives on the DOM so this needs to be bound so it can have access to it
       //arrow fx automatically bind this

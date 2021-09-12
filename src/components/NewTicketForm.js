@@ -19,9 +19,11 @@ function NewTicketForm(props) {
   return (
     //onSubmit  event handler triggers the fx
     <React.Fragment>
+      <p><strong>****NewTicketForm.js***</strong></p>
+      <p><strong>****INVISIBLE: Passes on ReusableForm and button text***</strong></p>
       <ReusableForm
         formSubmissionHandler={handleNewTicketFormSubmission}
-        buttonText="Help!" />
+        buttonText="Submit Form Text in **NewTicketForm.js**" />
     </React.Fragment>
   );
 }
